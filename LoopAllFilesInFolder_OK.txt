@@ -1,0 +1,30 @@
+Sub LoopAllFilesInFolder()
+
+Dim folderName As String
+Dim FSOLibrary As Object
+Dim FSOFolder As Object
+Dim FSOFile As Object
+
+'Set the file name to a variable
+folderName = "C:\Users\user\Desktop\ÐÑÏÓ ÅÊÔÕÐÙÓÇ"
+
+'Set all the references to the FSO Library
+Set FSOLibrary = CreateObject("Scripting.FileSystemObject")
+Set FSOFolder = FSOLibrary.GetFolder(folderName)
+y = 1
+'Use For Each loop to loop through each file in the folder
+For Each FSOFile In FSOFolder.Files
+
+    'Insert actions to be perfomed on each file
+    'This example will print the file name to the immediate window
+    'Debug.Print FSOFile.Name
+    Cells(y, 1).Value = FSOFile.Name
+    y = y + 1
+
+Next
+
+'Release the memory
+Set FSOLibrary = Nothing
+Set FSOFolder = Nothing
+
+End Sub

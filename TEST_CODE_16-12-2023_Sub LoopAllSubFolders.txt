@@ -1,0 +1,66 @@
+Sub LoopAllSubFolders()
+
+Dim FSOFolder As Object
+Dim FSOLibrary As Object
+Dim folderName As String
+Dim FSOSubFolder As Object
+Dim FSOFile As Object
+
+'--------------------
+Dim con As Object
+Dim rs As Object
+Dim accessFile As String
+accessFile = "C:\Users\user\Desktop\ÐÑÏÓ ÅÊÔÕÐÙÓÇ\TestBase.accdb"
+'--------------------
+
+folderName = "C:\Users\user\Desktop\ÐÑÏÓ ÅÊÔÕÐÙÓÇ"
+Set FSOLibrary = CreateObject("Scripting.FileSystemObject")
+Set FSOFolder = FSOLibrary.GetFolder(folderName)
+y = 2
+j = 2
+
+For Each FSOSubFolder In FSOFolder.SubFolders
+    '--------------------
+    Set con = CreateObject("ADODB.Connection")
+    con.Open "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & accessFile
+    Set rs = CreateObject("ADODB.Recordset")
+    Sql = "SELECT * FROM TestTable"
+    rs.CursorType = 1
+    rs.LockType = 3
+    rs.Open Sql, con
+    '--------------------
+    For Each FSOFile In FSOSubFolder.Files
+        Cells(y, 1).Value = FSOSubFolder.Name
+        Cells(j, 2).Value = FSOFile.Name
+        '--------------------
+        Dim fieldsArray(1) As Variant
+        fieldsArray(0) = "SubFolderName"
+        fieldsArray(1) = "SubFolderName_FileName"
+        Dim values(1) As Variant
+        values(0) = Cells(y, 1).Value
+        values(1) = Cells(j, 2).Value
+        rs.AddNew fieldsArray, values
+        rs.Update
+        '--------------------
+        y = y + 1
+        j = j + 1
+    Next
+    rs.Close
+    con.Close
+    Set rs = Nothing
+    Set con = Nothing
+Next
+
+'For each file, print the name
+'For Each FSOFile In FSOFolder.Files
+
+    'Insert the actions to be performed on each file
+    'This example will print the full file path to the immediate window
+    'Debug.Print FSOFile.Path
+
+'Next
+Set FSOLibrary = Nothing
+Set FSOFolder = Nothing
+Set FSOSubFolder = Nothing
+Set FSOFile = Nothing
+End Sub

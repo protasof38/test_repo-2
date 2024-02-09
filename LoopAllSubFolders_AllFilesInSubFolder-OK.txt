@@ -1,0 +1,36 @@
+Sub LoopAllSubFolders_AllFilesInSubFolder()
+
+Dim FSOFolder As Object
+Dim FSOLibrary As Object
+Dim folderName As String
+Dim FSOSubFolder As Object
+Dim FSOFile As Object
+
+folderName = "C:\Users\user\Desktop\ÐÑÏÓ ÅÊÔÕÐÙÓÇ"
+Set FSOLibrary = CreateObject("Scripting.FileSystemObject")
+Set FSOFolder = FSOLibrary.GetFolder(folderName)
+y = 1
+'For each subfolder call the macro
+For Each FSOSubFolder In FSOFolder.SubFolders
+    Cells(y, 1).Value = FSOSubFolder.Name
+    y = y + 1
+    For Each FSOFile In FSOSubFolder.Files
+        Cells(y, 1).Value = FSOFile.Name
+        y = y + 1
+    Next
+    'LoopAllSubFolders FSOSubFolder
+Next
+
+'For each file, print the name
+'For Each FSOFile In FSOFolder.Files
+
+    'Insert the actions to be performed on each file
+    'This example will print the full file path to the immediate window
+    'Debug.Print FSOFile.Path
+
+'Next
+Set FSOLibrary = Nothing
+Set FSOFolder = Nothing
+Set FSOSubFolder = Nothing
+Set FSOFile = Nothing
+End Sub
